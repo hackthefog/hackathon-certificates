@@ -33,7 +33,7 @@ function checkCert() {
             }
          }
          if (!missing) {
-            var path = "external/" + type + ".html";
+            var path = "" + type + ".html";
 
             var request = new XMLHttpRequest();
             request.open("GET", path, true);
