@@ -116,19 +116,19 @@ function checkCert() {
 function homePage() {
    console.log("loaded home");
    loadMessage("messages/home.html");
-   hideFAB();
+   hideDownload();
 }
 
 function invalidCert() {
    console.log("loaded invalidCert");
    loadMessage("messages/invalidCert.html");
-   hideFAB();
+   hideDownload();
 }
 
 function error() {
    console.log("loaded error");
    loadMessage("messages/error.html");
-   hideFAB();
+   hideDownload();
 }
 
 function loadMessage(path) {
@@ -149,9 +149,9 @@ function loadMessage(path) {
    request.send();
 }
 
-function hideFAB() {
-   var fab = document.getElementsByClassName("fab")[0];
-   fab.style.display = "none";
+function hideDownload() {
+   var downloadButton = document.querySelector("#downloadButton");
+   downloadButton.style.display = "none";
 }
 
 function download() {
@@ -175,7 +175,7 @@ function snapshot() {
 function certResize() {
    var headerHeight;
    var additionalMargin;
-   headerHeight = document.getElementsByClassName("header")[0].offsetHeight;
+   headerHeight = document.querySelector("nav").offsetHeight;
    additionalMargin = parseFloat(
       getComputedStyle(document.documentElement).getPropertyValue(
          "--additional-margin"
