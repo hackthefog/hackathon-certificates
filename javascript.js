@@ -16,7 +16,6 @@ function checkCert() {
    }
 
    var correctHash = keyHash(flattenedParams);
-	console.log("Correct Hash: " + correctHash);
 
    if (!(type || hash)) {
       console.log("no params");
@@ -114,16 +113,97 @@ function checkCert() {
    }
 }
 
-function invalidCert() {
-   console.log("loaded invalidCert");
+function homePage() {
+   console.log("loaded home");
+   loadMessage("messages/home.html");
+   hideFAB();
 }
 
-function destroyCertTemp() {
-  document.getElementById("cert-temp").innerHTML = "";
+function invalidCert() {
+   console.log("loaded invalidCert");
+   loadMessage("messages/invalidCert.html");
+   hideFAB();
+}
+
+function error() {
+   console.log("loaded error");
+   loadMessage("messages/error.html");
+   hideFAB();
+}
+
+function loadMessage(path) {
+   var request = new XMLHttpRequest();
+   request.open("GET", path, true);
+   request.onload = function () {
+      if (request.status >= 200 && request.status < 400) {
+         var resp = request.responseText;
+         var message = document.createElement("div");
+         message.className = "message";
+         message.innerHTML = resp;
+         document.querySelector("#certWrapper").innerHTML = "";
+         document.querySelector("#certWrapper").appendChild(message);
+      } else if (path != "messages/error.html") {
+         error();
+      }
+   };
+   request.send();
+}
+
+function hideFAB() {
+   var fab = document.getElementsByClassName("fab")[0];
+   fab.style.display = "none";
 }
 
 function download() {
-  window.print();
+   if (canvasSnapshot) {
+      var imgData = canvasSnapshot.toDataURL("image/jpeg", 1);
+      var doc = new jsPDF("l", "in", "letter");
+      doc.addImage(imgData, "JPEG", 0, 0, 11, 8.5);
+      doc.save("synHacks Certificate.pdf");
+   }
 }
+
+var canvasSnapshot;
+function snapshot() {
+   html2canvas(document.querySelector("#cert"), {
+      scale: 4,
+   }).then((canvas) => {
+      canvasSnapshot = canvas;
+   });
+}
+
+function certResize() {
+   var headerHeight;
+   var additionalMargin;
+   headerHeight = document.getElementsByClassName("header")[0].offsetHeight;
+   additionalMargin = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue(
+         "--additional-margin"
+      ),
+      10
+   );
+   document.documentElement.style.setProperty(
+      "--header-height",
+      headerHeight + "px"
+   );
+
+   var windowWidth = window.innerWidth;
+   var windowHeight = window.innerHeight;
+   var newRootSize =
+      Math.min(
+         windowWidth,
+         (windowHeight - headerHeight - additionalMargin) * 1.29411764706
+      ) /
+         800 +
+      "px";
+   document.getElementsByTagName("html")[0].style.fontSize = newRootSize;
+}
+
+window.onresize = function () {
+   certResize();
+};
+window.addEventListener
+   ? window.addEventListener("load", certResize, false)
+   : window.attachEvent && window.attachEvent("onload", certResize);
 
 checkCert();
