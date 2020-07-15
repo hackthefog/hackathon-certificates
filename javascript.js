@@ -52,11 +52,8 @@ function checkCert() {
 								element.innerText = entry[1];
 							}
 						}
-						var name = "Hacker"
-						for(var qParam = 0; qParam < params.length - 1; params++) {
-							if(params[qParam] == "name" && typeof params[qParam + 1] == "string") name = params[qParam].trim();
-						}
-						document.querySelector("#name").innerText = name;
+						document.querySelector("#name").innerText = urlParams.get("name") || "Hacker";
+						document.querySelector("#role").innerText = urlParams.get("role") || "For Attending";
 						certResize();
 						snapshot();
 					} else {
