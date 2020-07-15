@@ -161,7 +161,7 @@ function download() {
 		var imgData = canvasSnapshot.toDataURL("image/jpeg", 1);
 		var doc = new jsPDF("l", "in", "letter");
 		doc.addImage(imgData, "JPEG", 0, 0, 11, 8.5);
-		doc.save("synHacks Certificate.pdf");
+		doc.save("Hack the Cloud Certificate.pdf");
 	}
 }
 
