@@ -2,20 +2,12 @@ function checkCert() {
 	const urlParams = new URLSearchParams(window.location.search);
 
 	//mandatory params
+	const name = urlParams.get("name");
+	const role = urlParams.get("role");
 	const type = urlParams.get("type");
 	const hash = urlParams.get("key");
 
-	var allParams = [];
-	var flattenedParams = [];
-	for (var entry of urlParams.entries()) {
-		if (entry[0] != "key") {
-			allParams.push(entry);
-			flattenedParams.push(entry[0]);
-			flattenedParams.push(entry[1]);
-		}
-	}
-
-	var correctHash = keyHash(flattenedParams);
+	var correctHash = getHash(name, role, type);
 
 	if (!(type || hash)) {
 		console.log("no params");
@@ -78,40 +70,28 @@ function checkCert() {
 			: window.attachEvent && window.attachEvent("onload", invalidCert);
 	}
 
-	function keyHash(params) {
-		//[key1, value1, key2, value2, ...]
-		console.log(params);
+	function getHash(name, role, typ) {
+	 //    const Http = new XMLHttpRequest();
+		const url = `http://certhasher.herokuapp.com/hash/verify?name=${name}&role=${role}&type=${typ}`
+		// console.log(url)
+		// Http.open("GET", url);
+		// Http.send();
 
-		if (params.length % 2 != 0) {
-			return (
-				"ERROR: odd number of arguments (" +
-				params.length +
-				") [" +
-				Math.random() +
-				"]"
-			); //random number prevents correct hash
-		}
-		var correctHash = 0;
-		for (var i = 0; i < params.length; i += 2) {
-			correctHash +=
-				parseInt(hashParam(params[i] + "|" + params[i + 1])) /
-				params.length;
-		}
-		correctHash = hashParam(correctHash);
-		return correctHash;
+		// Http.onreadystatechange = (e) => {
+		//   console.log(Http.responseText)
+		//   return Http.responseText
+		// }
+		$.ajax({
+			url: url,
+			type: "GET",
 
-		function hashParam(input) {
-			input += ""; //convert to string
-			var output = 0;
-			if (input.length != 0) {
-				for (var i = 0; i < input.length; i++) {
-					var char = input.charCodeAt(i);
-					output = (output << 5) - output + char;
-					output = output & output;
-				}
+			success: function(result) {
+				console.log(result);
+			},
+			error: function(error) {
+				console.log(error)
 			}
-			return output;
-		}
+		})
 	}
 }
 
