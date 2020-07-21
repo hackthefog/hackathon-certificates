@@ -12,13 +12,13 @@ function checkCert() {
 	console.log(hash.localeCompare(correctHash))
 
 	$.when(getHash(name, role, type)).done(function(correctHash){
-		
+
 		if (!(type || hash)) {
 			console.log("no params");
 			window.addEventListener
 				? window.addEventListener("load", homePage, false)
 				: window.attachEvent && window.attachEvent("onload", homePage);
-		} else if (hash.localeCompare(correctHash)) {
+		} else if (hash.localeCompare(correctHash) == -1) {
 			//wait until elements exist
 			var observer = new MutationObserver(function (mutations, me) {
 				var elements = [document.getElementById("cert")];
