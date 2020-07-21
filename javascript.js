@@ -106,7 +106,7 @@ function checkCert() {
 			success: function(response) {
 			    //Do Something
 			    console.log(response);
-			    return response
+			    return response;
 			},
 			error: function(xhr) {
 				//Do Something to handle error
