@@ -7,9 +7,17 @@ function checkCert() {
 	const type = urlParams.get("type");
 	const hash = String(urlParams.get("key"));
 
-	var correctHash = getHash(name, role, type);
+	var allParams = [];
+    var flattenedParams = [];
+    for (var entry of urlParams.entries()) {
+        if (entry[0] != "key") {
+	        allParams.push(entry);
+	        flattenedParams.push(entry[0]);
+	        flattenedParams.push(entry[1]);
+        }
+    }
 
-	console.log(hash.localeCompare(correctHash))
+	var correctHash = getHash(name, role, type);
 
 	$.when(getHash(name, role, type)).done(function(correctHash){
 
