@@ -71,47 +71,25 @@ function checkCert() {
 	}
 
 	function getHash(name, role, typ) {
-	 //    const Http = new XMLHttpRequest();
-		// const url = `https://certhasher.herokuapp.com/hash/verify?name=${name}&role=${role}&type=${typ}`
-		// console.log(url)
-		// Http.open("GET", url);
-		// Http.send();
-
-		// Http.onreadystatechange = (e) => {
-		//   console.log(Http.responseText)
-		//   return Http.responseText
-		// }
-		// $.ajax({
-		// 	url: url,
-		// 	type: "GET",
-
-		// 	success: function(result) {
-		// 		console.log(result);
-		// 		return result;
-		// 	},
-		// 	error: function(error) {
-		// 		console.log(error)
-		// 	}
-		// })
-		const url = "https://certhasher.herokuapp.com/hash/verify"
-
+		const url = "https://cors-anywhere.herokuapp.com/https://certhasher.herokuapp.com/hash/verify";
+		
 		$.ajax({
-		  	url: url,
-		  	type: "GET", //send it through get method
-		  	data: { 
-			    "name": name, 
-			    "role": role, 
-			    "type": typ
-			},
-			success: function(response) {
-			    //Do Something
-			    console.log(response);
-			    return response;
-			},
-			error: function(xhr) {
-				//Do Something to handle error
-				console.log(xhr)
-		  	}
+		    url: url,
+		    type: "GET", //send it through get method
+		    data: { 
+		        name: name, 
+		        role: role, 
+		        type: typ
+		    },
+		    success: function(response) {
+		        //Do Something
+		        console.log(response);
+		        return response;
+		    },
+		    error: function(xhr) {
+		        //Do Something to handle error
+		        console.log(xhr)
+		    }
 		});
 	}
 }
