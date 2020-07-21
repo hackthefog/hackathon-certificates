@@ -11,66 +11,69 @@ function checkCert() {
 
 	console.log(hash.localeCompare(correctHash))
 
-	if (!(type || hash)) {
-		console.log("no params");
-		window.addEventListener
-			? window.addEventListener("load", homePage, false)
-			: window.attachEvent && window.attachEvent("onload", homePage);
-	} else if (hash.localeCompare(correctHash)) {
-		//wait until elements exist
-		var observer = new MutationObserver(function (mutations, me) {
-			var elements = [document.getElementById("cert")];
-			var missing = false;
-			for (var i = 0; i < elements.length; i++) {
-				if (!elements[i]) {
-					missing = true;
-				}
-			}
-			if (!missing) {
-				var path = "external/" + type + ".html";
-
-				var request = new XMLHttpRequest();
-				request.open("GET", path, true);
-				request.onload = function () {
-					if (request.status >= 200 && request.status < 400) {
-						var resp = request.responseText;
-						var temp = document.createElement("div");
-						temp.innerHTML = resp;
-						document.querySelector("#cert").innerHTML = resp;
-						// document.querySelector("#cert").appendChild(temp);
-						for (var entry of allParams) {
-							var elements = document.querySelectorAll(
-								"[cert-replace=" + entry[0] + "]"
-							);
-							for (var element of elements) {
-								element.innerText = entry[1];
-							}
-						}
-						document.querySelector("#name").innerText = urlParams.get("name") || "Hacker";
-						document.querySelector("#role").innerText = urlParams.get("role") || "For Attending";
-						certResize();
-						snapshot();
-					} else {
-						error();
+	$.when(getHash(name, role, type)).done(function(correctHash){
+		
+		if (!(type || hash)) {
+			console.log("no params");
+			window.addEventListener
+				? window.addEventListener("load", homePage, false)
+				: window.attachEvent && window.attachEvent("onload", homePage);
+		} else if (hash.localeCompare(correctHash)) {
+			//wait until elements exist
+			var observer = new MutationObserver(function (mutations, me) {
+				var elements = [document.getElementById("cert")];
+				var missing = false;
+				for (var i = 0; i < elements.length; i++) {
+					if (!elements[i]) {
+						missing = true;
 					}
-				};
-				request.send();
+				}
+				if (!missing) {
+					var path = "external/" + type + ".html";
 
-				me.disconnect();
-				return;
-			}
-		});
+					var request = new XMLHttpRequest();
+					request.open("GET", path, true);
+					request.onload = function () {
+						if (request.status >= 200 && request.status < 400) {
+							var resp = request.responseText;
+							var temp = document.createElement("div");
+							temp.innerHTML = resp;
+							document.querySelector("#cert").innerHTML = resp;
+							// document.querySelector("#cert").appendChild(temp);
+							for (var entry of allParams) {
+								var elements = document.querySelectorAll(
+									"[cert-replace=" + entry[0] + "]"
+								);
+								for (var element of elements) {
+									element.innerText = entry[1];
+								}
+							}
+							document.querySelector("#name").innerText = urlParams.get("name") || "Hacker";
+							document.querySelector("#role").innerText = urlParams.get("role") || "For Attending";
+							certResize();
+							snapshot();
+						} else {
+							error();
+						}
+					};
+					request.send();
 
-		observer.observe(document, {
-			childList: true,
-			subtree: true,
-		});
-	} else {
-		console.log("invalid cert");
-		window.addEventListener
-			? window.addEventListener("load", invalidCert, false)
-			: window.attachEvent && window.attachEvent("onload", invalidCert);
-	}
+					me.disconnect();
+					return;
+				}
+			});
+
+			observer.observe(document, {
+				childList: true,
+				subtree: true,
+			});
+		} else {
+			console.log("invalid cert");
+			window.addEventListener
+				? window.addEventListener("load", invalidCert, false)
+				: window.attachEvent && window.attachEvent("onload", invalidCert);
+		}
+	});
 
 	function getHash(name, role, typ) {
 		const url = "https://cors-anywhere.herokuapp.com/https://certhasher.herokuapp.com/hash/verify";
