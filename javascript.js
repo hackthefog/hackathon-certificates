@@ -5,7 +5,7 @@ function checkCert() {
 	const name = urlParams.get("name");
 	const role = urlParams.get("role");
 	const type = urlParams.get("type");
-	const hash = urlParams.get("key");
+	const hash = String(urlParams.get("key"));
 
 	var correctHash = getHash(name, role, type);
 
@@ -14,7 +14,7 @@ function checkCert() {
 		window.addEventListener
 			? window.addEventListener("load", homePage, false)
 			: window.attachEvent && window.attachEvent("onload", homePage);
-	} else if (hash == correctHash) {
+	} else if (hash.localeCompare(correctHash)) {
 		//wait until elements exist
 		var observer = new MutationObserver(function (mutations, me) {
 			var elements = [document.getElementById("cert")];
@@ -72,7 +72,7 @@ function checkCert() {
 
 	function getHash(name, role, typ) {
 		const url = "https://cors-anywhere.herokuapp.com/https://certhasher.herokuapp.com/hash/verify";
-		
+
 		$.ajax({
 		    url: url,
 		    type: "GET", //send it through get method
@@ -84,7 +84,7 @@ function checkCert() {
 		    success: function(response) {
 		        //Do Something
 		        console.log(response);
-		        return response;
+		        return String(response);
 		    },
 		    error: function(xhr) {
 		        //Do Something to handle error
