@@ -93,7 +93,7 @@ function checkCert() {
 		// 		console.log(error)
 		// 	}
 		// })
-		const url = "https://certhasher.herokuapp.com/hash/verify"
+		const url = "http://cors.io/?https://certhasher.herokuapp.com/hash/verify"
 
 		$.ajax({
 		  	url: url,
