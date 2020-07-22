@@ -85,8 +85,6 @@ function checkCert() {
 	function checkHash(name, role, typ, key) {
 		const url = "https://cors-anywhere.herokuapp.com/https://certhasher.herokuapp.com/hash/verify";
 
-		var res = 0;
-
 		$.ajax({
 		    url: url,
 		    type: "GET", //send it through get method
@@ -98,7 +96,7 @@ function checkCert() {
 		    success: function(response) {
 		        //Do Something
 		        console.log(response);
-		        if(hash.localeCompare(String(response) == 0) {
+		        if(hash.localeCompare(String(response) == 0)) {
 		        	verified = true;
 		        }
 		    },
@@ -108,8 +106,6 @@ function checkCert() {
 		    },
 		    async: false
 		});
-
-		return res;
 	}
 }
 
