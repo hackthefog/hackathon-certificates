@@ -27,65 +27,69 @@ function checkCert() {
 				? window.addEventListener("load", homePage, false)
 				: window.attachEvent && window.attachEvent("onload", homePage);
 		} else if (hash.localeCompare(correctHash) == 0) {
-			console.log("we're in");
-			//wait until elements exist
-			var observer = new MutationObserver(function (mutations, me) {
-				var elements = [document.getElementById("cert")];
-				var missing = false;
-				for (var i = 0; i < elements.length; i++) {
-					if (!elements[i]) {
-						missing = true;
-					}
-				}
-				console.log(missing);
-				if (!missing) {
-					console.log("deeper");
-					var path = "external/" + type + ".html";
-
-					var request = new XMLHttpRequest();
-					request.open("GET", path, true);
-					request.onload = function () {
-						console.log("deepest");
-						if (request.status >= 200 && request.status < 400) {
-							var resp = request.responseText;
-							var temp = document.createElement("div");
-							temp.innerHTML = resp;
-							document.querySelector("#cert").innerHTML = resp;
-							// document.querySelector("#cert").appendChild(temp);
-							for (var entry of allParams) {
-								var elements = document.querySelectorAll(
-									"[cert-replace=" + entry[0] + "]"
-								);
-								for (var element of elements) {
-									element.innerText = entry[1];
-								}
-							}
-							console.log("add cert");
-							document.querySelector("#name").innerText = urlParams.get("name") || "Hacker";
-							document.querySelector("#role").innerText = urlParams.get("role") || "For Attending";
-							certResize();
-							snapshot();
-						} else {
-							error();
-						}
-					};
-					request.send();
-
-					me.disconnect();
-					return;
-				}
-			});
-
-			observer.observe(document, {
-				childList: true,
-				subtree: true,
-			});
+			addCertificate(allParams, type)
 		} else {
 			console.log("invalid cert");
 			window.addEventListener
 				? window.addEventListener("load", invalidCert, false)
 				: window.attachEvent && window.attachEvent("onload", invalidCert);
 		}
+	});
+}
+
+function addCertificate(allParams, type) {
+	console.log("we're in");
+	//wait until elements exist
+	var observer = new MutationObserver(function (mutations, me) {
+		var elements = [document.getElementById("cert")];
+		var missing = false;
+		for (var i = 0; i < elements.length; i++) {
+			if (!elements[i]) {
+				missing = true;
+			}
+		}
+		console.log(missing);
+		if (!missing) {
+			console.log("deeper");
+			var path = "external/" + type + ".html";
+
+			var request = new XMLHttpRequest();
+			request.open("GET", path, true);
+			request.onload = function () {
+				console.log("deepest");
+				if (request.status >= 200 && request.status < 400) {
+					var resp = request.responseText;
+					var temp = document.createElement("div");
+					temp.innerHTML = resp;
+					document.querySelector("#cert").innerHTML = resp;
+					// document.querySelector("#cert").appendChild(temp);
+					for (var entry of allParams) {
+						var elements = document.querySelectorAll(
+							"[cert-replace=" + entry[0] + "]"
+						);
+						for (var element of elements) {
+							element.innerText = entry[1];
+						}
+					}
+					console.log("add cert");
+					document.querySelector("#name").innerText = urlParams.get("name") || "Hacker";
+					document.querySelector("#role").innerText = urlParams.get("role") || "For Attending";
+					certResize();
+					snapshot();
+				} else {
+					error();
+				}
+			};
+			request.send();
+
+			me.disconnect();
+			return;
+		}
+	});
+
+	observer.observe(document, {
+		childList: true,
+		subtree: true,
 	});
 }
 
