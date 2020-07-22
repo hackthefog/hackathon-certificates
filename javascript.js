@@ -19,7 +19,7 @@ function checkCert() {
         }
     }
 
-	checkHash(name, role, type, key);
+	checkHash(name, role, type, hash);
 
 	if (!(type || hash)) {
 		console.log("no params");
