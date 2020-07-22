@@ -17,7 +17,7 @@ function checkCert() {
         }
     }
 
-	var correctHash = await getHash(name, role, type);
+	var correctHash = await getHash(name, role, type)
 
 
 	if (!(type || hash)) {
