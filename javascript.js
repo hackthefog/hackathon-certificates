@@ -17,7 +17,7 @@ function checkCert() {
         }
     }
 
-	var correctHash = getHash(name, role, type)
+	var correctHash = getHash(name, role, type);
 
 
 	if (!(type || hash)) {
