@@ -20,7 +20,7 @@ function checkCert() {
 	var correctHash = getHash(name, role, type);
 
 	console.log("checking")
-	console.log(hash.localeCompare(correctHash) == 0)
+	console.log(hash.localeCompare(String(correctHash)) == 0)
 
 
 	if (!(type || hash)) {
@@ -28,7 +28,7 @@ function checkCert() {
 		window.addEventListener
 			? window.addEventListener("load", homePage, false)
 			: window.attachEvent && window.attachEvent("onload", homePage);
-	} else if (hash.localeCompare(correctHash) == 0) {
+	} else if (hash.localeCompare(String(correctHash)) == 0) {
 		//wait until elements exist
 		var observer = new MutationObserver(function (mutations, me) {
 			var elements = [document.getElementById("cert")];
