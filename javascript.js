@@ -17,7 +17,7 @@ function checkCert() {
         }
     }
 
-	var correctHash = await getHash(name, role, type)
+	var correctHash = getHash(name, role, type)
 
 
 	if (!(type || hash)) {
@@ -100,7 +100,8 @@ function checkCert() {
 		    error: function(xhr) {
 		        //Do Something to handle error
 		        console.log(xhr)
-		    }
+		    },
+		    async: false
 		});
 	}
 }
