@@ -22,10 +22,6 @@ function checkCert() {
 	});
 
 	getHash(name, role, type, function(correctHash) {
-		console.log(hash);
-		console.log(correctHash);
-		console.log(hash.localeCompare(correctHash))
-		console.log(hash.localeCompare(String(correctHash)))
 
 		if (!(type || hash)) {
 			console.log("no params");
@@ -33,6 +29,7 @@ function checkCert() {
 				? window.addEventListener("load", homePage, false)
 				: window.attachEvent && window.attachEvent("onload", homePage);
 		} else if (hash.localeCompare(correctHash) == 0) {
+			console.log("we're in");
 			//wait until elements exist
 			var observer = new MutationObserver(function (mutations, me) {
 				var elements = [document.getElementById("cert")];
@@ -43,11 +40,13 @@ function checkCert() {
 					}
 				}
 				if (!missing) {
+					console.log("deeper");
 					var path = "external/" + type + ".html";
 
 					var request = new XMLHttpRequest();
 					request.open("GET", path, true);
 					request.onload = function () {
+						console.log("deepest");
 						if (request.status >= 200 && request.status < 400) {
 							var resp = request.responseText;
 							var temp = document.createElement("div");
@@ -62,6 +61,7 @@ function checkCert() {
 									element.innerText = entry[1];
 								}
 							}
+							console.log("add cert");
 							document.querySelector("#name").innerText = urlParams.get("name") || "Hacker";
 							document.querySelector("#role").innerText = urlParams.get("role") || "For Attending";
 							certResize();
