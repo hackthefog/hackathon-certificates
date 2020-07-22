@@ -20,6 +20,8 @@ function checkCert() {
 	var correctHash = getHash(name, role, type);
 
 	$.when(getHash(name, role, type)).done(function(correctHash){
+		console.log(hash);
+		console.log(correctHash);
 
 		if (!(type || hash)) {
 			console.log("no params");
