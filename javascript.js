@@ -19,7 +19,7 @@ function checkCert() {
 
 	var correctHash = getHash(name, role, type);
 
-	$.when(getHash(name, role, type)).done(function(correctHash){
+	$.when(getHash(name, role, type)).then(function(correctHash){
 		console.log(hash);
 		console.log(correctHash);
 
