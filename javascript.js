@@ -19,6 +19,9 @@ function checkCert() {
 
 	var correctHash = getHash(name, role, type);
 
+	console.log("checking")
+	console.log(hash.localeCompare(correctHash) == 0)
+
 
 	if (!(type || hash)) {
 		console.log("no params");
