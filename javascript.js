@@ -1,3 +1,5 @@
+var verified = false;
+
 function checkCert() {
 	const urlParams = new URLSearchParams(window.location.search);
 
@@ -17,13 +19,7 @@ function checkCert() {
         }
     }
 
-	var correctHash = getHash(name, role, type);
-
-	console.log("checking");
-	console.log(hash);
-	console.log(String(correctHash));
-	console.log(hash.localeCompare(String(correctHash)) == 0)
-
+	checkHash(name, role, type, key);
 
 	if (!(type || hash)) {
 		console.log("no params");
@@ -86,7 +82,7 @@ function checkCert() {
 			: window.attachEvent && window.attachEvent("onload", invalidCert);
 	}
 
-	function getHash(name, role, typ) {
+	function checkHash(name, role, typ, key) {
 		const url = "https://cors-anywhere.herokuapp.com/https://certhasher.herokuapp.com/hash/verify";
 
 		var res = 0;
@@ -102,8 +98,9 @@ function checkCert() {
 		    success: function(response) {
 		        //Do Something
 		        console.log(response);
-		        res = response;
-		        return String(response);
+		        if(hash.localeCompare(String(response) == 0) {
+		        	verified = true;
+		        }
 		    },
 		    error: function(xhr) {
 		        //Do Something to handle error
