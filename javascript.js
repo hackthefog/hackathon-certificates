@@ -28,7 +28,7 @@ function checkCert() {
 			window.addEventListener
 				? window.addEventListener("load", homePage, false)
 				: window.attachEvent && window.attachEvent("onload", homePage);
-		} else if (hash.localeCompare(correctHash) == -1) {
+		} else if (hash.localeCompare(correctHash) == 0) {
 			//wait until elements exist
 			var observer = new MutationObserver(function (mutations, me) {
 				var elements = [document.getElementById("cert")];
