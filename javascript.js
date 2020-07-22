@@ -18,10 +18,8 @@ function checkCert() {
     }
 
 	getHash(name, role, type, function(correctHash) {
+		console.log(hash);
 		console.log(correctHash);
-	});
-
-	getHash(name, role, type, function(correctHash) {
 
 		if (!(type || hash)) {
 			console.log("no params");
@@ -39,6 +37,7 @@ function checkCert() {
 						missing = true;
 					}
 				}
+				console.log(missing);
 				if (!missing) {
 					console.log("deeper");
 					var path = "external/" + type + ".html";
