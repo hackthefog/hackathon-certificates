@@ -19,7 +19,7 @@ function checkCert() {
 
 	var correctHash = getHash(name, role, type);
 
-	$.when(getHash(name, role, type)).then(function(correctHash){
+	getHash(name, role, type, function(correctHash) {
 		console.log(hash);
 		console.log(correctHash);
 
@@ -85,7 +85,7 @@ function checkCert() {
 		}
 	});
 
-	function getHash(name, role, typ) {
+	function getHash(name, role, typ, callback) {
 		const url = "https://cors-anywhere.herokuapp.com/https://certhasher.herokuapp.com/hash/verify";
 
 		$.ajax({
@@ -96,11 +96,7 @@ function checkCert() {
 		        role: role, 
 		        type: typ
 		    },
-		    success: function(response) {
-		        //Do Something
-		        console.log(response);
-		        return String(response);
-		    },
+		    success: callback,
 		    error: function(xhr) {
 		        //Do Something to handle error
 		        console.log(xhr)
