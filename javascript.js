@@ -86,25 +86,25 @@ function checkCert() {
 				: window.attachEvent && window.attachEvent("onload", invalidCert);
 		}
 	});
+}
 
-	function getHash(name, role, typ, callback) {
-		const url = "https://cors-anywhere.herokuapp.com/https://certhasher.herokuapp.com/hash/verify";
+function getHash(name, role, typ, callback) {
+	const url = "https://cors-anywhere.herokuapp.com/https://certhasher.herokuapp.com/hash/verify";
 
-		$.ajax({
-		    url: url,
-		    type: "GET", //send it through get method
-		    data: { 
-		        name: name, 
-		        role: role, 
-		        type: typ
-		    },
-		    success: callback,
-		    error: function(xhr) {
-		        //Do Something to handle error
-		        console.log(xhr)
-		    }
-		});
-	}
+	$.ajax({
+	    url: url,
+	    type: "GET", //send it through get method
+	    data: { 
+	        name: name, 
+	        role: role, 
+	        type: typ
+	    },
+	    success: callback,
+	    error: function(xhr) {
+	        //Do Something to handle error
+	        console.log(xhr)
+	    }
+	});
 }
 
 function homePage() {
