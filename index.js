@@ -21,14 +21,14 @@ app.get("/", (req, res) => {
 		key: Number(req.query.key)
 	};
 
-	if(!validTypes.includes(urlData.type)) return res.status(400).send("Invalid Type");
+	if(!validTypes.includes(urlData.type)) return res.render(ejsTemplate("error"), {description: "Error 400: Invalid Type"});
 
 	if(!urlData.name || !urlData.role || !urlData.type || !urlData.key) {
 		// Query String Values Are Required
-		return res.status(400).send("Invalid URL");
+		return res.render(ejsTemplate("error"), {description: "Error 400: Invalid URL"});
 	}
 
-	if(hasher(urlData.name, urlData.role, urlData.type) !== urlData.key) return res.status(400).send("Hash Does Not Match");
+	if(hasher(urlData.name, urlData.role, urlData.type) !== urlData.key) return res.render(ejsTemplate("error"), {description: "Error 400: Hash Does Not Match"});
 
 	return res.render(ejsTemplate("template"), { data: urlData });
 });
