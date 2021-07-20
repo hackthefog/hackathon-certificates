@@ -1,0 +1,24 @@
+{
+  "name": "hackathon-certificates",
+  "version": "1.0.0",
+  "description": "Generate certificates for Hackathon winners, attendees, and more",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hackthefog/hackathon-certificates.git"
+  },
+  "author": "Marvin Lee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hackthefog/hackathon-certificates/issues"
+  },
+  "homepage": "https://github.com/hackthefog/hackathon-certificates#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1"
+  }
+}
